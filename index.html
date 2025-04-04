@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="inventory, stock, warehouse, management, app" />
+    <meta
+      name="description"
+      content="A simple web app for managing inventory and stock in a warehouse"
+    />
+    <title>Inventory App</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./public/css/app.css" />
+  </head>
+  <body class="bg-slate-800">
+    <!-- App Bar -->
+    <header class="bg-slate-700 flex items-center justify-center gap-x-3 h-12 mb-5">
+      <h1 class="text-xl font-bold text-slate-300">Inventory App</h1>
+      <span
+        id="products-length"
+        class="text-lg bg-slate-500 size-7 rounded-full flex justify-center items-center text-slate-100 font-bold border-2 border-slate-300"
+      ></span>
+
+      <button data-id=""></button>
+    </header>
+    <!-- App Content -->
+    <main class="container max-w-screen-sm">
+      <!-- Category Form -->
+      <div class="mb-5 hidden" id="category-wrapper">
+        <h2 class="mb-2 text-slate-300 font-bold text-xl">Add New Category</h2>
+
+        <form class="flex flex-col gap-y-4 bg-slate-700 text-slate-300 p-4 rounded-2xl">
+          <div class="flex flex-col gap-y-1">
+            <label for="category-title">Category Title:</label>
+            <input
+              type="text"
+              name="category-title"
+              class="max-w-60 outline-none border-2 border-slate-500 rounded-xl bg-transparent p-2"
+              id="category-title"
+              placeholder="Title..."
+            />
+          </div>
+
+          <div class="flex flex-col gap-y-1">
+            <label for="category-description">Category Description:</label>
+            <textarea
+              name="category-description"
+              class="outline-none border-2 border-slate-500 rounded-xl resize-none bg-transparent p-2"
+              id="category-description"
+              placeholder="Description..."
+            ></textarea>
+          </div>
+
+          <div class="flex items-center justify-between gap-x-4 font-bold">
+            <button
+              id="cancel-category"
+              class="flex-grow bg-transparent border-2 border-slate-500 rounded-lg p-2"
+            >
+              Cancel
+            </button>
+            <button
+              id="add-new-category"
+              class="flex-grow bg-slate-300 text-slate-800 border-2 border-transparent rounded-lg p-2"
+            >
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+      <button id="toggle-category" class="mb-4 text-lg font-bold text-slate-500">
+        Add New Category?
+      </button>
+      <!-- Product Form -->
+      <div class="mb-10">
+        <h2 class="mb-2 text-slate-300 font-bold text-xl">Add New Product</h2>
+
+        <form class="flex flex-col gap-y-4 bg-slate-700 text-slate-300 p-4 rounded-2xl">
+          <div class="flex flex-col gap-y-1">
+            <label for="product-title">Product Title:</label>
+            <input
+              type="text"
+              name="product-title"
+              class="max-w-60 outline-none border-2 border-slate-500 rounded-xl bg-transparent p-2"
+              id="product-title"
+              placeholder="Title..."
+            />
+          </div>
+
+          <div class="flex flex-col gap-y-1">
+            <label for="product-quantity">Quantity:</label>
+            <input
+              type="number"
+              name="product-quantity"
+              class="max-w-60 outline-none border-2 border-slate-500 rounded-xl bg-transparent p-2"
+              id="product-quantity"
+              placeholder="Quantity"
+            />
+          </div>
+
+          <div class="flex flex-col gap-y-1">
+            <label for="product-category">Category:</label>
+            <select
+              name="product-category"
+              id="product-category"
+              class="outline-none border-2 border-slate-500 rounded-xl bg-transparent p-2"
+            ></select>
+          </div>
+
+          <div class="flex items-center font-bold">
+            <button
+              id="add-new-product"
+              class="flex-grow bg-slate-300 text-slate-800 border-2 border-transparent rounded-lg p-2"
+            >
+              Add New Product
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- Product List -->
+      <div class="mb-10">
+        <h2 class="text-slate-300 font-bold text-xl">Product List</h2>
+
+        <div class="my-2 text-slate-300 flex justify-between items-center">
+          <label class="text-lg" for="search-input">Search:</label>
+          <input
+            type="text"
+            name="search"
+            id="search-input"
+            placeholder="Search Product"
+            class="w-full max-w-64 outline-none border-2 border-slate-500 rounded-xl bg-transparent p-2"
+          />
+        </div>
+
+        <div class="mb-2 text-slate-300 flex justify-between items-center">
+          <label class="text-lg" for="sort-products">Sort Products:</label>
+          <select
+            class="w-full max-w-64 outline-none border-2 border-slate-500 rounded-xl bg-transparent p-2"
+            name="sort-products"
+            id="sort-products"
+          >
+            <option class="bg-slate-500" value="">Sort</option>
+            <option class="bg-slate-500" selected value="newest">Newest</option>
+            <option class="bg-slate-500" value="oldest">Oldest</option>
+          </select>
+        </div>
+
+        <div id="products-list"></div>
+      </div>
+
+      <!-- Modal Component: Product List Edit Modal for Editing Existing Products -->
+      <!-- Backdrop -->
+      <div class="modal-backdrop"></div>
+      <!-- Modal -->
+      <div class="modal">
+        <div class="modal__header">
+          <h2 class="modal__header-title">Edit Product</h2>
+          <button class="modal__header-close"><i class="bx bx-x"></i></button>
+        </div>
+
+        <div class="modal__body">
+          <form class="modal__form" action="#">
+            <input class="modal__form-input" type="text" title="Edit Product Title" autofocus />
+            <div class="modal__button">
+              <button type="submit" class="modal__edit-button" title="Edit">Edit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- script -->
+    <script src="./src/js/app.js" type="module"></script>
+  </body>
+</html>

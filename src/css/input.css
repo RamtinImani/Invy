@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Backdrop */
+  .modal-backdrop {
+    @apply invisible opacity-0 fixed top-0 left-0 w-full h-full bg-gray-900/50 z-50 transition-all duration-200;
+  }
+
+  .show-modal-backdrop {
+    @apply visible opacity-100;
+  }
+
+  .modal {
+    @apply bg-slate-700 invisible opacity-0 flex flex-col justify-between fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-[480px] rounded-2xl z-[1000] transition-all duration-200 shadow-md p-4;
+  }
+
+  .show-modal {
+    @apply visible opacity-100;
+  }
+
+  .modal__header {
+    @apply flex justify-between items-center;
+  }
+
+  .modal__header-title {
+    @apply font-bold text-xl text-slate-300;
+  }
+
+  .modal__header-close i {
+    @apply text-xl text-slate-300;
+  }
+
+  .modal__body {
+    @apply my-5;
+  }
+
+  .modal__form {
+    @apply flex flex-col gap-y-4;
+  }
+
+  .modal__form-input {
+    @apply w-full p-2.5 border-2 border-slate-500 rounded-xl;
+  }
+
+  .modal__edit-button {
+    @apply bg-blue-400 font-bold text-slate-100 py-2 px-5 text-sm border-none rounded-xl cursor-pointer;
+  }
+}
