@@ -64,7 +64,7 @@ class ProductView {
         (category) => category.id === Number(product.category)
       );
 
-      result += `<div class="flex items-center justify-between text-slate-100 mb-2">
+      result += `<div class="flex items-center justify-between text-slate-100 mb-2 overflow-x-auto">
           <span class="font-bold">${product.title}</span>
           <div class="flex items-center gap-x-5">
             <span>${new Date(product.createdAt).toLocaleDateString("fa-IR")}</span>
